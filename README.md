@@ -1,4 +1,4 @@
-# T3gnn
+# T3GNN
 In this repo we present T3GNN (GNN for temporal transaction and textual content) to perform future transaction prediction on Web3 ecosystems.
 
 ## Description
