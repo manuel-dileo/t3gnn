@@ -6,7 +6,8 @@ In Web3 social platforms, i.e. social web applications which rely on blockchain 
 
 ## Architecture overview
 
-The figure below shows the running pipeline of T3GNN. You can find the implementation of T3GNN in the `t3gnn.py` src file
+The figure below shows the running pipeline of T3GNN. You can find the implementation of T3GNN in the `t3gnn.py` src file.  
+
 ![T3GNN pipeline](t3gnn-pipeline.png "T3GNN pipeline").
 
 ## Steemit Data
