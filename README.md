@@ -7,4 +7,4 @@ In Web3 social platforms, i.e. social web applications which rely on blockchain 
 ## Architecture overview
 
 The figure below shows the running pipeline of T3GNN.
-![GNN Architecture](t3gnn-pipeline.png "T3GNN").
+![T3GNN pipeline](t3gnn-pipeline.PNG "T3GNN pipeline").
