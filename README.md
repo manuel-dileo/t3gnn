@@ -11,7 +11,7 @@ The figure below shows the running pipeline of T3GNN. You can find the implement
 ![T3GNN pipeline](t3gnn-pipeline.png "T3GNN pipeline").
 
 ## Steemit Data
-Due to privacy reasons on personal data like username and textual content, we can't release the dataset related to Steemit. To patch this problem, we will provide an anonymized version of our data. This version represents the final mathematical objects that are use to feed the models. For data gathering you can refer to the [Steemit API](https://developers.steem.io/) documentation. Steemit transaction and textual data will be available soon
+Due to privacy reasons on personal data like username and textual content, we can't release the dataset related to Steemit. To patch this problem, we provide an anonymized version of our data. This version represents the final mathematical objects that are use to feed the models. For data gathering you can refer to the [Steemit API](https://developers.steem.io/) documentation.
 
 ## Experiments
 For the experiments presented in "Temporal graph networks and sentence embedding for transaction prediction in dynamic Web3 platforms", you can refer to the `T3GNN-Steemit.ipynb` notebook
