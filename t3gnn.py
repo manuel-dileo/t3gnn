@@ -15,10 +15,12 @@ import torch
 import networkx as nx
 import numpy as np
 
-class T3GNNLP(torch.nn.Module):
-    def __init__(self, input_dim, num_nodes, dropout=0.0, update='mlp', loss=BCEWithLogitsLoss):
+from torch_geometric_temporal.nn.recurrent import GConvGRU,  EvolveGCNH, EvolveGCNO
+
+class T3ROLAND(torch.nn.Module):
+    def __init__(self, input_dim, num_nodes, hidden_conv_1, hidden_conv_2, dropout=0.0, update='mlp', loss=BCEWithLogitsLoss):
         
-        super(T3GNNLP, self).__init__()
+        super(T3ROLAND, self).__init__()
         #Architecture: 
             #2 MLP layers to preprocess node repr, 
             #2 GCN layer to aggregate node embeddings
@@ -28,8 +30,6 @@ class T3GNNLP(torch.nn.Module):
         #if you change the architecture you need to change the forward method too
         #TODO: make the architecture parameterizable
         
-        hidden_conv_1 = 64 
-        hidden_conv_2 = 32
         self.preprocess1 = Linear(input_dim, 256)
         self.preprocess2 = Linear(256, 128)
         self.conv1 = GCNConv(128, hidden_conv_1)
@@ -125,10 +125,87 @@ class T3GNNLP(torch.nn.Module):
 
         return h, current_embeddings
     
-    def tau(self):
-        if self.update=='lwa':
-            return self.tau0
-        raise Exception('update!=lwa')
+    def loss(self, pred, link_label):
+        return self.loss_fn(pred, link_label)
+    
+class T3GConvGRU(torch.nn.Module):
+    def __init__(self, in_channels, hidden_conv_2):
+        super(T3GConvGRU, self).__init__()
+        self.gcgru = GConvGRU(in_channels, hidden_conv_2, 2)
+        self.post = torch.nn.Linear(hidden_conv_2, 2)
+        
+        self.loss_fn = BCEWithLogitsLoss()
+        
+    def reset_parameters(self):
+        self.post.reset_parameters()
+
+    def forward(self, x, edge_index, edge_label_index, H=None):
+        h = self.gcgru(x, edge_index, H=H)
+        hidden = torch.Tensor(h.detach().numpy())
+        h = F.relu(h)
+        
+        #HADAMARD MLP
+        h_src = h[edge_label_index[0]]
+        h_dst = h[edge_label_index[1]]
+        h_hadamard = torch.mul(h_src, h_dst) #hadamard product
+        h = self.post(h_hadamard)
+        h = torch.sum(h.clone(), dim=-1).clone()
+        
+        return h, hidden
+    
+    def loss(self, pred, link_label):
+        return self.loss_fn(pred, link_label)
+    
+class T3EvolveGCNH(torch.nn.Module):
+    def __init__(self, num_nodes, in_channels):
+        super(T3EvolveGCNH, self).__init__()
+        self.evolve = EvolveGCNH(num_nodes, in_channels)
+        self.post = torch.nn.Linear(in_channels, 2)
+        
+        self.loss_fn = BCEWithLogitsLoss()
+        
+    def reset_parameters(self):
+        self.post.reset_parameters()
+
+    def forward(self, x, edge_index, edge_label_index):
+        h = self.evolve(x, edge_index)
+        h = F.relu(h)
+        
+        #HADAMARD MLP
+        h_src = h[edge_label_index[0]]
+        h_dst = h[edge_label_index[1]]
+        h_hadamard = torch.mul(h_src, h_dst) #hadamard product
+        h = self.post(h_hadamard)
+        h = torch.sum(h.clone(), dim=-1).clone()
+        
+        return h
+    
+    def loss(self, pred, link_label):
+        return self.loss_fn(pred, link_label)
+    
+class T3EvolveGCNO(torch.nn.Module):
+    def __init__(self, in_channels):
+        super(T3EvolveGCNO, self).__init__()
+        self.evolve = EvolveGCNO(in_channels)
+        self.post = torch.nn.Linear(in_channels, 2)
+        
+        self.loss_fn = BCEWithLogitsLoss()
+        
+    def reset_parameters(self):
+        self.post.reset_parameters()
+
+    def forward(self, x, edge_index, edge_label_index):
+        h = self.evolve(x, edge_index)
+        h = F.relu(h)
+        
+        #HADAMARD MLP
+        h_src = h[edge_label_index[0]]
+        h_dst = h[edge_label_index[1]]
+        h_hadamard = torch.mul(h_src, h_dst) #hadamard product
+        h = self.post(h_hadamard)
+        h = torch.sum(h.clone(), dim=-1).clone()
+        
+        return h
     
     def loss(self, pred, link_label):
         return self.loss_fn(pred, link_label)
