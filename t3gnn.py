@@ -17,6 +17,7 @@ import numpy as np
 
 from torch_geometric_temporal.nn.recurrent import GConvGRU,  EvolveGCNH, EvolveGCNO
 from lin_rnn import LinRNN
+import torch.nn as nn
 
 
 class T3GNN(torch.nn.Module):
