@@ -10,8 +10,28 @@ The figure below shows the running pipeline of T3GNN. You can find the implement
 
 ![T3GNN pipeline](t3gnn-pipeline.png "T3GNN pipeline").
 
+## Run T3GNN on your dataset
+
+To feed T3GNN, a snapshot-based or discrete-time temporal graph is a list of PyG Data. The i-th element in the list corresponds to the representation of the i-th snapshot of the temporal network. If you are not familiar with PyG Data structures, node feature matrix, and edge_index, you can refer to [PyG Documentation](https://pytorch-geometric.readthedocs.io/en/latest/modules/data.html). To use T3GNN with a custom dataset, you can follow these steps:
+1. Create a folder `dirname` that will contain the edge list and node features of your snapshot graphs.
+2. Move into `dirname` the edge_index tensors of your snapshot graphs by adopting the following convention: the edge list of the i-th snapshot is called `i_edge_index.pt`. It is important to start counting from zero. 
+3. Optionally, move into `dirname` the node feature matrix of your snapshot graphs by adopting the following convention: the node feature matrix of the i-th snapshot is called `i_x.pt`. It is important to start counting from zero.
+4a. Train T3GNN on your dataset by running:
+
+    ```
+    python run.py --dataset dirname
+    ```
+4b. In case you do not have node features, you must specify the number of nodes on your dataset by running:
+    ```
+    python run.py --dataset dirname --num_nodes num_nodes
+    ```
+4c. You can set the hidden dimension of your model, specify the fixed random seed and the addition of self-loops by running:
+    ```
+    python run.py --dataset dirname --add_self_loops --hidden_dim 64 --seed 42
+    ```
+    
 ## Steemit Data
-Due to privacy reasons on personal data like username and textual content, we can't release the dataset related to Steemit. To patch this problem, we provide an anonymized version of our data. This version represents the final mathematical objects that are use to feed the models. For data gathering you can refer to the [Steemit API](https://developers.steem.io/) documentation.
+Due to privacy reasons on personal data like username and textual content, we can't release the dataset related to Steemit. To patch this problem, we provide an anonymized version of our data. This version represents the final mathematical objects that are used to feed the models. For data gathering, you can refer to the [Steemit API](https://developers.steem.io/) documentation.
 
 ## Experiments
 ### Reproduce
