@@ -16,16 +16,16 @@ To feed T3GNN, a snapshot-based or discrete-time temporal graph is a list of PyG
 1. Create a folder `dirname` that will contain the edge list and node features of your snapshot graphs.
 2. Move into `dirname` the edge_index tensors of your snapshot graphs by adopting the following convention: the edge list of the i-th snapshot is called `i_edge_index.pt`. It is important to start counting from zero. 
 3. Optionally, move into `dirname` the node feature matrix of your snapshot graphs by adopting the following convention: the node feature matrix of the i-th snapshot is called `i_x.pt`. It is important to start counting from zero.
-4a. Train T3GNN on your dataset by running:
+4. Train T3GNN on your dataset by running:
 
     ```
     python run.py --dataset dirname
     ```
-4b. In case you do not have node features, you must specify the number of nodes on your dataset by running:
+In case you do not have node features, you must specify the number of nodes on your dataset by running:
     ```
     python run.py --dataset dirname --num_nodes num_nodes
     ```
-4c. You can set the hidden dimension of your model, specify the fixed random seed and the addition of self-loops by running:
+You can set the hidden dimension of your model, specify the fixed random seed and the addition of self-loops by running:
     ```
     python run.py --dataset dirname --add_self_loops --hidden_dim 64 --seed 42
     ```
