@@ -23,7 +23,7 @@ parser.add_argument('--num_nodes', type=int, default=None, help='Number of nodes
 
 args = parser.parse_args()
 
-def load_dataset(dirname, num_nodes=None):
+def load_dataset(dirname, hidden_dim, num_nodes=None):
     files = os.listdir(dirname)
     num_snap = max([int(file.split('_')[0]) for file in files])+1
     features = len([file for file in files if file.endswith("_x.pt")]) > 0
@@ -38,7 +38,7 @@ def load_dataset(dirname, num_nodes=None):
             if num_nodes is None:
                 raise Exception('You need to specify num_nodes if you do not have node features')
             d.num_nodes = num_nodes
-            d.x = constant(d)
+            d.x = torch.randn(num_nodes, hidden_dim)
         snapshots.append(d)
     return snapshots
 
@@ -54,7 +54,7 @@ if __name__ == '__main__':
     torch.cuda.empty_cache()
     
     print('Loading dataset...')
-    snapshots = load_dataset(args.dataset, args.num_nodes)
+    snapshots = load_dataset(args.dataset, args.hidden_dim, args.num_nodes)
     
     print('Training T3GNN...')
     scores = train_roland(snapshots, args.hidden_dim, args.hidden_dim, update='mlp', add_self_loops=args.add_self_loops)
