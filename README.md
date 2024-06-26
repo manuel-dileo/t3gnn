@@ -50,3 +50,25 @@ We developed T3GNN using [Pytorch Geometric (PyG)](https://pyg.org/). For Evolve
 | Epochs         | 50    | 
 
 Overall, computing all the experiments with all the baselines and a single configuration of hyperparameters takes no more than 30 minutes.
+
+### Cite
+If you use the code of this repository for your project or you find the work interesting, please cite the following work:  
+
+Dileo, M., Zignani, M. Discrete-time graph neural networks for transaction prediction in Web3 social platforms. Mach Learn (2024). https://doi.org/10.1007/s10994-024-06579-y
+
+
+```bibtex
+﻿@Article{Dileo2024,
+author={Dileo, Manuel
+and Zignani, Matteo},
+title={Discrete-time graph neural networks for transaction prediction in Web3 social platforms},
+journal={Machine Learning},
+year={2024},
+month={Jun},
+day={25},
+abstract={In Web3 social platforms, i.e. social web applications that rely on blockchain technology to support their functionalities, interactions among users are usually multimodal, from common social interactions such as following, liking, or posting, to specific relations given by crypto-token transfers facilitated by the blockchain. In this dynamic and intertwined networked context, modeled as a financial network, our main goals are (i) to predict whether a pair of users will be involved in a financial transaction, i.e. the transaction prediction task, even using textual information produced by users, and (ii) to verify whether performances may be enhanced by textual content. To address the above issues, we compared current snapshot-based temporal graph learning methods and developed T3GNN, a solution based on state-of-the-art temporal graph neural networks' design, which integrates fine-tuned sentence embeddings and a simple yet effective graph-augmentation strategy for representing content, and historical negative sampling. We evaluated models in a Web3 context by leveraging a novel high-resolution temporal dataset, collected from one of the most used Web3 social platforms, which spans more than one year of financial interactions as well as published textual content. The experimental evaluation has shown that T3GNN consistently achieved the best performance over time and for most of the snapshots. Furthermore, through an extensive analysis of the performance of our model, we show that, despite the graph structure being crucial for making predictions, textual content contains useful information for forecasting transactions, highlighting an interplay between users' interests and economic relationships in Web3 platforms. Finally, the evaluation has also highlighted the importance of adopting sampling methods alternative to random negative sampling when dealing with prediction tasks on temporal networks.},
+issn={1573-0565},
+doi={10.1007/s10994-024-06579-y},
+url={https://doi.org/10.1007/s10994-024-06579-y}
+}
+```
