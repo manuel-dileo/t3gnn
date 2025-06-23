@@ -58,7 +58,7 @@ Dileo, M., Zignani, M. Discrete-time graph neural networks for transaction predi
 
 
 ```bibtex
-﻿@Article{Dileo2024,
+﻿@Article{Dileo2024discrete,
 author={Dileo, Manuel
 and Zignani, Matteo},
 title={Discrete-time graph neural networks for transaction prediction in Web3 social platforms},
